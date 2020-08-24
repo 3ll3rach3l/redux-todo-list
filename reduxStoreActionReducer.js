@@ -22,16 +22,24 @@ const tasksReducer = (state = [], action) => { //'tasksReducer' conceptually rou
             const newTask = {
                 message: action.taskMessage,
             }
+            /* 
+            Since you don't want to directly mutate the state array, you don't 
+            want to push the newTask directly into the state array. Instead, 
+            you can use spread syntax to return an updated state with newTask 
+            set as the last array element in a new array
+            */
             return [...state, newTask]
         // TODO: Set up switch case for `deleteTask` action
         case DELETE_TASK:
             // TODO: Define what happens when a `deleteTask` action is dispatched
+            const idx = action.taskId
+            return [...state.slice(0, idx), ...state.slice(idx + 1)]
         // TODO: Set up switch case for `resetTaskList` action
         case RESET_TASK_LIST:
-            // TODO: Define what happens when a `resetTaskList` action is dispatched
-        // TODO: Set up default switch case
-        default:
-            return state;
+           
+                return action.emptyTaskList;
+                // TODO: Define what happens when a `resetTaskList` action is dispatched
+                
     }
 
 }
@@ -59,4 +67,12 @@ const resetTaskList = () =>{
         type: RESET_TASK_LIST,
         emptyTaskList: []
     }
+}
+
+module.exports ={
+    tasksReducer,
+    createTask,
+    deleteTask,
+    resetTaskList,
+    store
 }
